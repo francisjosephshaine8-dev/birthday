@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Surprise for You! 💌</title>
+    <!-- Pinterest-style aesthetic fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=Sacramento&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            /* Soft, cozy Pinterest gradient background */
+            background: linear-gradient(135deg, #fde2e4 0%, #ffcbf2 50%, #e2ece9 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Quicksand', sans-serif;
+            overflow: hidden;
+        }
+
+        /* Container Card Styling (Pinterest Vibe) */
+        .card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            width: 380px;
+            padding: 40px 30px;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border: 2px solid #fff;
+            text-align: center;
+            position: absolute;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .hidden {
+            display: none;
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        /* Typography */
+        h1 {
+            font-family: 'Sacramento', cursive;
+            font-size: 52px;
+            color: #d45d79;
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+
+        h2 {
+            font-size: 18px;
+            color: #4a4a4a;
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        p {
+            font-size: 14px;
+            color: #6a6a6a;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .teaser-text {
+            font-size: 15px;
+            font-weight: 700;
+            color: #c95d85;
+            margin-bottom: 8px;
+            background: #ffe5ed;
+            padding: 6px 12px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        /* Inputs & Buttons */
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #f0d1d8;
+            border-radius: 14px;
+            font-size: 15px;
+            font-family: 'Quicksand', sans-serif;
+            margin-bottom: 15px;
+            text-align: center;
+            outline: none;
+            background: #fff;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: #d45d79;
+        }
+
+        #error-msg {
+            color: #d90429;
+            font-size: 13px;
+            margin-bottom: 10px;
+            display: none;
+        }
+
+        .btn {
+            background: #ff758c;
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            font-size: 15px;
+            font-weight: 700;
+            font-family: 'Quicksand', sans-serif;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 117, 140, 0.3);
+            transition: transform 0.2s ease, background 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: scale(1.04);
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 10px;
+            position: relative;
+        }
+
+        .btn-no {
+            background: #e0e0e0;
+            color: #555;
+            box-shadow: none;
+        }
+
+        .btn-no:hover {
+            background: #d0d0d0;
+        }
+
+        /* Images / Icons */
+        .cute-img {
+            width: 130px;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            border: 4px solid #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .emoji-icon {
+            font-size: 45px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Password Screen -->
+    <div id="screen-pass" class="card">
+        <div class="emoji-icon">🔒</div>
+        <h2>Enter Password</h2>
+        <input type="password" id="pass-input" placeholder="Type password here...">
+        <div id="error-msg">Oops! Wrong password 🥺</div>
+        <button class="btn" onclick="checkPassword()">Unlock</button>
+    </div>
+
+    <!-- 2. Birthday Card / Teaser Screen -->
+    <div id="screen-card" class="card hidden">
+        <div class="emoji-icon">🎂</div>
+        <div class="teaser-text">I have something to show youu!!!!!!</div>
+        <h2>To Revansha Philgin✨</h2>
+        <p>there is some thing special and you need to see it!!!!</p>
+        <button class="btn" onclick="showScreen('screen-question')">Next ➔</button>
+    </div>
+
+    <!-- 3. Question Screen -->
+    <div id="screen-question" class="card hidden">
+        <div class="emoji-icon">💌</div>
+        <h2>Do you want to seee????</h2>
+        <p>We put a lot of effort into this, so you better say yes! 🤭</p>
+        <div class="btn-group">
+            <button class="btn" onclick="showScreen('screen-yes')">Yes! 🤍</button>
+            <button class="btn btn-no" id="btn-no" onmouseover="moveNoButton()" onclick="showScreen('screen-no')">No 🙃</button>
+        </div>
+    </div>
+
+    <!-- 4. Angry Puppy Screen (If No) -->
+    <div id="screen-no" class="card hidden">
+        <!-- Cute angry puppy image (Placeholder URL) -->
+        <img src="C:\Users\DELL\Downloads\482781816_666529402722871_3439568771420832275_n.jpg" alt="Angry Puppy" class="cute-img">
+        <h2 style="color: #d90429;">SERIOUSLY!?</h2>
+        <p>How dare you hmph 😤💢</p>
+        <button class="btn" onclick="showScreen('screen-question')">← Go Back</button>
+    </div>
+
+    <!-- 5. Happy Dog Screen (If Yes) -->
+    <div id="screen-yes" class="card hidden">
+        <!-- Cute dog in heart/cozy vibe image -->
+        <img src="C:\Users\DELL\Downloads\686932576_1230056982348486_1398810218881797554_n.jpg" alt="Happy Dog" class="cute-img">
+        <h1>Yayyy! 🎉</h1>
+        <h2 style="color: #d45d79; margin-top: 5px;">That's a good gurll 🐾🤍</h2>
+        <p>You unlocked the final secret! Hope your birthday is absolute perfection!</p>
+    </div>
+
+    <script>
+        // Change your password here:
+        const correctPassword = "Pineapple"; 
+
+        function checkPassword() {
+            const input = document.getElementById("pass-input").value;
+            const errorMsg = document.getElementById("error-msg");
+
+            if (input === correctPassword) {
+                showScreen('screen-card');
+            } else {
+                errorMsg.style.display = "block";
+                document.getElementById("pass-input").value = "";
+            }
+        }
+
+        // Helper function to switch between screens smoothly
+        function showScreen(screenId) {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.classList.add('hidden');
+            });
+
+            const target = document.getElementById(screenId);
+            target.classList.remove('hidden');
+        }
+
+        // Playful "No" button that dodges the cursor if they try to hover it
+        function moveNoButton() {
+            const btnNo = document.getElementById("btn-no");
+            const x = (Math.random() - 0.5) * 160;
+            const y = (Math.random() - 0.5) * 80;
+            btnNo.style.transform = `translate(${x}px, ${y}px)`;
+        }
+
+        // Allow pressing "Enter" on keyboard to submit password
+        document.getElementById("pass-input").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                checkPassword();
+            }
+        });
+    </script>
+
+</body>
+</html>
